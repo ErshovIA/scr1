@@ -102,8 +102,13 @@
 #define INTERRUPT_HANDLER j other_exception /* No interrupts should occur */
 
 #define RVTEST_CODE_BEGIN                                               \
+        .org 0x600,0;                                                   \
+        MSG_TRAP:                                                       \
+        .string "misalign trap!";                                       \
+        MSG_START_MY:                                                   \
+        .string "MY TEXT DISPLAYING TEST STRING";                       \
         .section .text.init;                                            \
-        .org 0xC0, 0x00;                                                \
+        .org 0x00, 0x00;                                                \
         .balign  64;                                                    \
         .weak stvec_handler;                                            \
         .weak mtvec_handler;                                            \
@@ -116,6 +121,16 @@ trap_vector:                                                            \
         beq a4, a5, _report;                                            \
         li a5, CAUSE_MACHINE_ECALL;                                     \
         beq a4, a5, _report;                                            \
+        /* init for loop, 0xf0000000 address for print */               \
+        lui a6, 0xf0000;                                                \
+        la a7, MSG_TRAP;                                                \
+next_iter:                                                              \
+        lb a5, 0(a7);                                                   \
+        beq a5, x0, break_from_loop;                                    \
+        sw a5, 0(a6);   /* write to a6 char for print */                \
+        addi a7, a7, 1;                                                 \
+        jal x0,next_iter;                                               \
+break_from_loop:                                                        \
         /* if an mtvec_handler is defined, jump to it */                \
         la a4, mtvec_handler;                                           \
         beqz a4, 1f;                                                    \
@@ -133,6 +148,7 @@ _report:                                                                \
         j sc_exit;                                                      \
         .balign  64;                                                    \
         .globl _start;                                                  \
+        .section .text.start;                                           \
 _start:                                                                 \
         RISCV_MULTICORE_DISABLE;                                        \
         /*INIT_SPTBR;*/                                                 \
@@ -163,6 +179,16 @@ _start:                                                                 \
         csrw mepc, t0;                                                  \
         csrr a0, mhartid;                                               \
         mret;                                                           \
+        /*test print*/                                                  \
+        lui a6, 0xf0000;                                                \
+        la a7, MSG_START_MY;                                            \
+next_iter_my:                                                              \
+        lb a5, 0(a7);                                                   \
+        beq a5, x0, break_from_loop_my;                                    \
+        sw a5, 0(a6);   /* write to a6 char for print */                \
+        addi a7, a7, 1;                                                 \
+        jal x0,next_iter_my;                                               \
+break_from_loop_my:                                                        \
         .section .text;                                                 \
 _run_test:
 
