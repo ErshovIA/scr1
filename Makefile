@@ -156,7 +156,7 @@ endif
 #--
 ifeq (,$(findstring e,$(ARCH_lowercase)))
     # Comment this target if you don't want to run the riscv_isa
-    #TARGETS += riscv_isa
+    TARGETS += riscv_isa
 
     # Comment this target if you don't want to run the riscv_compliance
     #TARGETS += riscv_compliance
@@ -175,7 +175,7 @@ endif
 #TARGETS += dhrystone21
 
 # Comment this target if you don't want to run the hello test
-TARGETS += hello
+#TARGETS += hello
 
 # When RVE extension is on, we want to exclude some tests, even if they are given from the command line
 ifneq (,$(findstring e,$(ARCH_lowercase)))
