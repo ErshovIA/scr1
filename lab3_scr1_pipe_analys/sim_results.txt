@@ -1,0 +1,53 @@
+scr1_top_tb_ahb
+[0;34m---Test:                          jal.hex[0m
+
+	Detect	JAL	command
+	curr_pc = 000002a0
+	mcause = 00000000
+	mepc = 000002a0
+	mie = 00000000
+	mip = 00000080
+	mstatus = 00001880
+	mtval = 00000000
+	mtvec = 000001c0
+
+
+	Detect	JAL	command
+	curr_pc = 000002b6
+	mcause = 00000000
+	mepc = 000002a0
+	mie = 00000000
+	mip = 00000080
+	mstatus = 00001880
+	mtval = 00000000
+	mtvec = 000001c0
+
+
+	Detect	JAL	command
+	curr_pc = 000000f4
+	mcause = 0000000b
+	mepc = 000002ec
+	mie = 00000000
+	mip = 00000080
+	mstatus = 00001800
+	mtval = 00000000
+	mtvec = 000001c0
+
+[0;32mTest passed[0m
+
+	Detect	JAL	command
+	curr_pc = 000000f8
+	mcause = 0000000b
+	mepc = 000002ec
+	mie = 00000000
+	mip = 00000080
+	mstatus = 00001800
+	mtval = 00000000
+	mtvec = 000001c0
+
+
+#--------------------------------------
+# Summary: 1/1 tests passed
+#--------------------------------------
+
+- /home/verilog/LABS/Lab_2_scr1/scr1/src/tb/scr1_top_tb_runtests.sv:199: Verilog $finish
